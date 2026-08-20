@@ -1,20 +1,30 @@
 "use server";
 
 import { db } from "@/db";
-import { appointments } from "@/db/schema";
-import { redis } from "@/lib/redis"; // Adjust path if your redis client is located elsewhere
-import { and, gte, lt } from "drizzle-orm";
+import { appointments, blockouts } from "@/db/schema";
+import { redis } from "@/lib/redis";
+import { and, gte, lt, eq } from "drizzle-orm";
+
+import { STANDARD_TIME_SLOTS } from "@/lib/constants";
+
+function convertSlotToISO(dateString: string, timeSlot: string): string {
+  const [timeStr, ampm] = timeSlot.split(" ");
+  let [hours, minutes] = timeStr.split(":").map(Number);
+  if (ampm === "PM" && hours !== 12) hours += 12;
+  if (ampm === "AM" && hours === 12) hours = 0;
+  
+  const slotDate = new Date(dateString);
+  slotDate.setHours(hours, minutes, 0, 0);
+  return slotDate.toISOString();
+}
 
 export async function getOccupiedSlots(dateString: string) {
   try {
     const cacheKey = `availability:${dateString}`;
     
-// 1. Check Redis Cache
     const cachedSlots = await redis.get(cacheKey);
     if (cachedSlots) {
       try {
-        // If the Redis client already parsed it into an array, use it directly. 
-        // Otherwise, parse the string.
         const parsedSlots = typeof cachedSlots === "string" 
           ? JSON.parse(cachedSlots) 
           : cachedSlots;
@@ -24,11 +34,29 @@ export async function getOccupiedSlots(dateString: string) {
         }
       } catch (parseError) {
         console.warn("Cache parse error. Bypassing cache to query DB:", parseError);
-        // If the cache is corrupted, we simply ignore it and hit PostgreSQL.
       }
     }
 
-    // 2. Cache Miss: Query PostgreSQL
+    // 1. Check for Administrative Blockouts First
+    const dayBlocks = await db.query.blockouts.findMany({
+      where: eq(blockouts.targetDate, dateString),
+    });
+
+    const isFullDayBlocked = dayBlocks.some(b => b.timeSlot === null);
+    
+    // Convert all standard slots dynamically to match frontend timestamps
+    if (isFullDayBlocked) {
+      const allBlockedSlots = STANDARD_TIME_SLOTS.map(slot => convertSlotToISO(dateString, slot));
+      await redis.set(cacheKey, JSON.stringify(allBlockedSlots), { ex: 300 });
+      return { success: true, occupiedSlots: allBlockedSlots };
+    }
+
+    // Convert individual blocked slots
+    const blockedISOSlots = dayBlocks
+      .filter(b => b.timeSlot !== null)
+      .map(b => convertSlotToISO(dateString, b.timeSlot!));
+
+    // 2. Check for Booked Appointments
     const targetDate = new Date(dateString);
     const nextDay = new Date(targetDate);
     nextDay.setDate(targetDate.getDate() + 1);
@@ -43,13 +71,14 @@ export async function getOccupiedSlots(dateString: string) {
       },
     });
 
-    // Return exact ISO strings instead of relying on server timezone formatting
-    const occupiedSlots = bookedAppointments.map((apt) => {
+    const appointmentISOSlots = bookedAppointments.map((apt) => {
       return apt.startTime.toISOString();
     });
 
-    // 3. Cache the result in Redis with a 5-minute TTL
-   await redis.set(cacheKey, JSON.stringify(occupiedSlots), { ex: 300 });
+    // 3. Merge both arrays and remove duplicates
+    const occupiedSlots = Array.from(new Set([...blockedISOSlots, ...appointmentISOSlots]));
+
+    await redis.set(cacheKey, JSON.stringify(occupiedSlots), { ex: 300 });
 
     return { success: true, occupiedSlots };
     

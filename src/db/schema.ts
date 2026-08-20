@@ -6,7 +6,8 @@ import {
   timestamp, 
   boolean, 
   pgEnum, 
-  uuid 
+  uuid,
+  date 
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -58,3 +59,19 @@ export const appointmentsRelations = relations(appointments, ({ one }) => ({
     references: [services.id],
   }),
 }));
+
+export const admins = pgTable("admins", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  email: text("email").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  requiresPasswordChange: boolean("requires_password_change").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const blockouts = pgTable("blockouts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  targetDate: date("target_date").notNull(), 
+  timeSlot: text("time_slot"), 
+  reason: text("reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

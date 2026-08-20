@@ -5,8 +5,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { requestAppointment } from "@/actions/booking";
 import { getOccupiedSlots } from "@/actions/availability";
+import { STANDARD_TIME_SLOTS } from "@/lib/constants";
 
-// FIX: Helper to extract the exact local date without UTC shifting
+// Helper to extract the exact local date without UTC shifting
 const getLocalDateString = (d: Date) => {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -24,7 +25,6 @@ export default function BookingPage() {
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const allTimeSlots = ["09:00 AM", "11:00 AM", "02:00 PM", "04:30 PM"];
   const businessWhatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER; 
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export default function BookingPage() {
       setIsLoadingSlots(true);
       setSelectedTime(null);
       
-      // FIX: Use the local date constructor
       const dateString = getLocalDateString(date);
       const result = await getOccupiedSlots(dateString);
       
@@ -90,7 +89,6 @@ export default function BookingPage() {
       setName("");
       setPhone("");
       
-      // FIX: Use the local date constructor for the refresh as well
       const dateString = getLocalDateString(date);
       const freshResult = await getOccupiedSlots(dateString);
       if (freshResult.success) setOccupiedTimes(freshResult.occupiedSlots);
@@ -139,8 +137,8 @@ export default function BookingPage() {
           ) : (
             <div className="flex flex-col h-full justify-between space-y-8">
               
-              <div className="grid grid-cols-2 gap-3">
-                {allTimeSlots.map((time) => {
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {STANDARD_TIME_SLOTS.map((time) => {
                   const [timeStr, ampm] = time.split(" ");
                   let [hours, minutes] = timeStr.split(":").map(Number);
                   if (ampm === "PM" && hours !== 12) hours += 12;
@@ -157,7 +155,7 @@ export default function BookingPage() {
                       key={time}
                       disabled={isOccupied}
                       onClick={() => setSelectedTime(time)}
-                      className={`h-12 border transition-colors ${
+                      className={`h-10 text-sm border transition-colors ${
                         isOccupied 
                           ? "bg-secondary text-muted-foreground border-border cursor-not-allowed opacity-50"
                           : selectedTime === time 
