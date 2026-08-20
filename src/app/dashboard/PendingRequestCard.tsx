@@ -42,6 +42,7 @@ export function PendingRequestCard({ appointment }: { appointment: any }) {
         <div className="space-y-1 text-sm font-light">
           <p><span className="font-medium">Date:</span> {format(new Date(appointment.startTime), "MMMM do, yyyy")}</p>
           <p><span className="font-medium">Time:</span> {format(new Date(appointment.startTime), "h:mm a")}</p>
+          <p><span className="font-medium">Party Size:</span> {appointment.numberOfPeople} person(s)</p>
         </div>
       </div>
       

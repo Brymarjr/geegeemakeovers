@@ -61,6 +61,7 @@ export default async function DashboardPage() {
                     <th className="px-6 py-4">Client</th>
                     <th className="px-6 py-4">Date</th>
                     <th className="px-6 py-4">Time</th>
+                    <th className="px-6 py-4">Party Size</th>
                     <th className="px-6 py-4">Agreed Price</th>
                     <th className="px-6 py-4 text-right">Status</th>
                   </tr>
@@ -74,6 +75,7 @@ export default async function DashboardPage() {
                       </td>
                       <td className="px-6 py-4">{format(new Date(appointment.startTime), "MMM do, yyyy")}</td>
                       <td className="px-6 py-4">{format(new Date(appointment.startTime), "h:mm a")}</td>
+                      <td className="px-6 py-4">{appointment.numberOfPeople}</td>
                       <td className="px-6 py-4">
                         ${(appointment.agreedPriceInCents! / 100).toFixed(2)}
                       </td>

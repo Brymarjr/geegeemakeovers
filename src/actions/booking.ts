@@ -1,4 +1,3 @@
-// src/actions/booking.ts
 "use server";
 
 import { db } from "@/db";
@@ -11,6 +10,7 @@ const bookingSchema = z.object({
   clientPhone: z.string().min(10, "Valid phone number required"),
   startTime: z.string().datetime(), 
   endTime: z.string().datetime(),
+  numberOfPeople: z.number().min(1, "At least one person is required"),
 });
 
 export async function requestAppointment(formData: z.infer<typeof bookingSchema>) {
@@ -36,6 +36,7 @@ export async function requestAppointment(formData: z.infer<typeof bookingSchema>
       clientPhone: parsedData.clientPhone,
       startTime: new Date(parsedData.startTime),
       endTime: new Date(parsedData.endTime),
+      numberOfPeople: parsedData.numberOfPeople,
       status: "pending_consultation",
     }).returning();
 

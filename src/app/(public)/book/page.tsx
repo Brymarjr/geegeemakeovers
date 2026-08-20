@@ -23,6 +23,7 @@ export default function BookingPage() {
   
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const businessWhatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER; 
@@ -68,6 +69,7 @@ export default function BookingPage() {
         clientPhone: phone,
         startTime: startTime.toISOString(),
         endTime: endTime.toISOString(),
+        numberOfPeople: numberOfPeople,
       });
 
       if (!dbResult.success) {
@@ -77,7 +79,7 @@ export default function BookingPage() {
       }
 
       const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      const message = `Hello GeeGee Makeovers! I would like to request a consultation.\n\nName: ${name}\nRequested Date: ${formattedDate}\nRequested Time: ${selectedTime}\n\nPlease let me know if this slot is available and what the pricing would be.`;
+      const message = `Hello GeeGee Makeovers! I would like to request a consultation.\n\nName: ${name}\nRequested Date: ${formattedDate}\nRequested Time: ${selectedTime}\nParty Size: ${numberOfPeople} person(s)\n\nPlease let me know if this slot is available and what the pricing would be.`;
       
       const encodedMessage = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/${businessWhatsAppNumber}?text=${encodedMessage}`;
@@ -88,6 +90,7 @@ export default function BookingPage() {
       setSelectedTime(null);
       setName("");
       setPhone("");
+      setNumberOfPeople(1);
       
       const dateString = getLocalDateString(date);
       const freshResult = await getOccupiedSlots(dateString);
@@ -189,6 +192,17 @@ export default function BookingPage() {
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full h-12 px-4 border border-border bg-background focus:outline-none focus:border-primary transition-colors"
                       placeholder="+1 (555) 000-0000"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Number of People</label>
+                    <input 
+                      type="number" 
+                      min="1"
+                      max="15"
+                      value={numberOfPeople}
+                      onChange={(e) => setNumberOfPeople(parseInt(e.target.value) || 1)}
+                      className="w-full h-12 px-4 border border-border bg-background focus:outline-none focus:border-primary transition-colors"
                     />
                   </div>
                 </div>

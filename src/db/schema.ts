@@ -42,6 +42,7 @@ export const appointments = pgTable("appointments", {
   startTime: timestamp("start_time", { withTimezone: true }).notNull(),
   endTime: timestamp("end_time", { withTimezone: true }).notNull(),
   status: appointmentStatusEnum("status").default("pending_consultation").notNull(),
+  numberOfPeople: integer("number_of_people").default(1).notNull(),
   
   agreedPriceInCents: integer("agreed_price_in_cents"),
   stripeSessionId: text("stripe_session_id"), 

@@ -7,8 +7,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GeeGee Makeovers | Bespoke Gele & Makeup in NYC",
-  description: "Luxury makeup artistry and traditional Gele styling in New York City. Request your custom appointment today.",
+  title: "GeeGee Makeovers | Bespoke Gele & Makeup in Mount Vernono, NY",
+  description: "Luxury makeup artistry and traditional Gele styling in New York State, Mount Vernon. Request your custom appointment today.",
 };
 
 export default function RootLayout({

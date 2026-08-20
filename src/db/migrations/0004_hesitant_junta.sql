@@ -1,0 +1,1 @@
+ALTER TABLE "appointments" ADD COLUMN "number_of_people" integer DEFAULT 1 NOT NULL;
