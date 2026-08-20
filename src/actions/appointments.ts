@@ -41,3 +41,17 @@ export async function cancelAppointment(id: string, dateString: string) {
     return { success: false };
   }
 }
+
+export async function completeAppointment(id: string) {
+  try {
+    await db.update(appointments)
+      .set({ status: "completed" })
+      .where(eq(appointments.id, id));
+      
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to complete appointment:", error);
+    return { success: false };
+  }
+}

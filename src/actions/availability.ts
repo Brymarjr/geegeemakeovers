@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { appointments, blockouts } from "@/db/schema";
 import { redis } from "@/lib/redis";
-import { and, gte, lt, eq } from "drizzle-orm";
+import { and, gte, lt, eq, ne } from "drizzle-orm";
 
 import { STANDARD_TIME_SLOTS } from "@/lib/constants";
 
@@ -56,7 +56,7 @@ export async function getOccupiedSlots(dateString: string) {
       .filter(b => b.timeSlot !== null)
       .map(b => convertSlotToISO(dateString, b.timeSlot!));
 
-    // 2. Check for Booked Appointments
+    // 2. Check for Booked Appointments (Ignoring Cancelled ones)
     const targetDate = new Date(dateString);
     const nextDay = new Date(targetDate);
     nextDay.setDate(targetDate.getDate() + 1);
@@ -64,7 +64,8 @@ export async function getOccupiedSlots(dateString: string) {
     const bookedAppointments = await db.query.appointments.findMany({
       where: and(
         gte(appointments.startTime, targetDate),
-        lt(appointments.startTime, nextDay)
+        lt(appointments.startTime, nextDay),
+        ne(appointments.status, "cancelled") 
       ),
       columns: {
         startTime: true,

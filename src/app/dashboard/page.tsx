@@ -3,6 +3,7 @@ import { appointments } from "@/db/schema";
 import { asc } from "drizzle-orm";
 import { format } from "date-fns";
 import { PendingRequestCard } from "./PendingRequestCard";
+import { ConfirmedBookingRow } from "./ConfirmedBookingRow";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,7 @@ export default async function DashboardPage() {
 
   const pendingRequests = allAppointments.filter(app => app.status === "pending_consultation");
   const confirmedBookings = allAppointments.filter(app => app.status === "confirmed");
+  const completedBookings = allAppointments.filter(app => app.status === "completed").reverse();
 
   return (
     <div className="p-4 md:p-8">
@@ -63,11 +65,41 @@ export default async function DashboardPage() {
                     <th className="px-6 py-4">Time</th>
                     <th className="px-6 py-4">Party Size</th>
                     <th className="px-6 py-4">Agreed Price</th>
-                    <th className="px-6 py-4 text-right">Status</th>
+                    <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {confirmedBookings.map((appointment) => (
+                    <ConfirmedBookingRow key={appointment.id} appointment={appointment} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
+        <section>
+          <h2 className="text-xl font-medium mb-6">Completed Bookings</h2>
+          
+          {completedBookings.length === 0 ? (
+            <div className="p-8 border border-dashed border-border text-center text-muted-foreground font-light bg-background">
+              No completed appointments yet.
+            </div>
+          ) : (
+            <div className="bg-background border border-border overflow-hidden opacity-75">
+              <table className="w-full text-left text-sm font-light">
+                <thead className="bg-secondary/50 font-medium">
+                  <tr>
+                    <th className="px-6 py-4">Client</th>
+                    <th className="px-6 py-4">Date</th>
+                    <th className="px-6 py-4">Time</th>
+                    <th className="px-6 py-4">Party Size</th>
+                    <th className="px-6 py-4">Final Price</th>
+                    <th className="px-6 py-4 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {completedBookings.map((appointment) => (
                     <tr key={appointment.id} className="hover:bg-secondary/20 transition-colors">
                       <td className="px-6 py-4">
                         <p className="font-medium">{appointment.clientName}</p>
@@ -79,8 +111,8 @@ export default async function DashboardPage() {
                       <td className="px-6 py-4">
                         ${(appointment.agreedPriceInCents! / 100).toFixed(2)}
                       </td>
-                      <td className="px-6 py-4 text-right text-green-600 font-medium">
-                        Confirmed
+                      <td className="px-6 py-4 text-right text-muted-foreground font-medium">
+                        Completed
                       </td>
                     </tr>
                   ))}
