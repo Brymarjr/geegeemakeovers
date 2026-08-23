@@ -1,99 +1,158 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col w-full max-w-7xl mx-auto">
       
-      <section className="relative w-full min-h-[85vh] flex items-center justify-center bg-background px-4 md:px-6">
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-          <span className="text-sm tracking-widest uppercase text-primary mb-6 font-medium">
-            Mount Vernon, New York
-          </span>
-          
-          <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-foreground mb-8">
-            Expert Makeup & Traditional Gele Artistry
+      <section className="grid md:grid-cols-2 gap-12 items-center px-6 md:px-12 pt-8 pb-24">
+        <div>
+          <p className="text-xs font-extrabold tracking-[0.16em] uppercase text-gold mb-4">Bridal & Owanbe Glam</p>
+          <h1 className="text-5xl md:text-6xl lg:text-[64px] leading-[1.03] font-bold text-wine-deep">
+            Every fold<br /><em className="italic text-gold font-medium">tells a story.</em>
           </h1>
-          
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 font-light leading-relaxed">
-            Specializing in flawless bridal, editorial, and event styling. We combine technical precision with an eye for natural beauty to deliver a sophisticated look tailored to your features.
+          <p className="mt-6 text-[17px] leading-[1.65] text-ink-soft max-w-[46ch]">
+            Gee-Gee Makeovers brings together flawless makeup and expertly tied gele, so you walk into every aso-ebi, wedding or owanbe looking exactly like the occasion deserves across Mount Vernon and New York City.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Link 
-              href="/book"
-              className="inline-flex h-14 w-full sm:w-auto items-center justify-center bg-primary px-10 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Request a Consultation
+          <div className="flex flex-wrap gap-4 mt-8">
+            <Link href="/book" className="bg-wine text-cream font-bold text-sm px-7 py-3.5 rounded-full hover:-translate-y-0.5 transition-transform shadow-custom">
+              Check available dates
             </Link>
-            <a 
-              href="/#portfolio"
-              className="inline-flex h-14 w-full sm:w-auto items-center justify-center border border-border bg-transparent px-10 text-base font-medium text-foreground transition-colors hover:bg-secondary"
-            >
-              View Portfolio
-            </a>
+            <Link href="#portfolio" className="bg-transparent border-[1.5px] border-wine text-wine font-bold text-sm px-7 py-3.5 rounded-full hover:-translate-y-0.5 transition-transform">
+              See past work
+            </Link>
           </div>
+          <div className="flex flex-wrap gap-8 mt-11">
+            <div><b className="block font-fraunces text-2xl text-wine-deep">500+</b><span className="text-xs text-ink-soft font-semibold">Faces & geles styled</span></div>
+            <div><b className="block font-fraunces text-2xl text-wine-deep">4.9★</b><span className="text-xs text-ink-soft font-semibold">Average client rating</span></div>
+            <div><b className="block font-fraunces text-2xl text-wine-deep">7 yrs</b><span className="text-xs text-ink-soft font-semibold">In the glam business</span></div>
+          </div>
+        </div>
+        
+        <div className="relative aspect-[1/1.05] order-first md:order-last max-w-[320px] md:max-w-none mx-auto w-full shadow-custom overflow-hidden rounded-[32px]">
+          <Image 
+            src="/portfolio/image1.jpg" 
+            alt="Gee-Gee Makeovers Signature Look" 
+            fill 
+            priority
+            className="object-cover" 
+          />
         </div>
       </section>
 
-      {/* FIXED: Added id="process" right here so the navigation links can find it */}
-      <section id="process" className="w-full py-24 bg-secondary/30 px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl font-medium tracking-tight mb-4">The Booking Process</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto text-lg font-light">
-              A seamless reservation experience designed to ensure we understand your specific styling requirements before locking in your appointment.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-12 text-center md:text-left">
-            <div className="flex flex-col space-y-4">
-              <span className="text-sm tracking-widest text-primary uppercase font-medium">Step 01</span>
-              <h3 className="text-xl font-medium">Select a Date</h3>
-              <p className="text-muted-foreground font-light leading-relaxed">
-                Browse the availability calendar and select a date and time that suits your event schedule. Submitting a request holds your slot temporarily.
-              </p>
-            </div>
-            
-            <div className="flex flex-col space-y-4">
-              <span className="text-sm tracking-widest text-primary uppercase font-medium">Step 02</span>
-              <h3 className="text-xl font-medium">Consultation & Pricing</h3>
-              <p className="text-muted-foreground font-light leading-relaxed">
-                We connect via phone or WhatsApp to discuss your specific Gele style, makeup preferences, location details, and finalize the pricing.
-              </p>
-            </div>
-            
-            <div className="flex flex-col space-y-4">
-              <span className="text-sm tracking-widest text-primary uppercase font-medium">Step 03</span>
-              <h3 className="text-xl font-medium">Confirmation</h3>
-              <p className="text-muted-foreground font-light leading-relaxed">
-                Once the details and payment are confirmed, your time slot is officially locked into the calendar and secured for your event.
-              </p>
-            </div>
-          </div>
+      <section id="portfolio" className="px-6 md:px-12 py-16">
+        <div className="max-w-[640px] mb-10">
+          <p className="text-xs font-extrabold tracking-[0.16em] uppercase text-gold">Portfolio</p>
+          <h2 className="text-[28px] md:text-[40px] mt-2 font-bold leading-tight text-wine-deep">A few recent transformations</h2>
+          <p className="mt-3 text-ink-soft text-[15.5px] leading-[1.6]">Take a look at some of our favorite bridal looks and owanbe glam from the Mount Vernon studio.</p>
         </div>
-      </section>
-
-      <section id="portfolio" className="w-full py-24 bg-background px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-medium tracking-tight mb-12 text-center">Featured Work</h2>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="aspect-[3/4] bg-secondary flex items-center justify-center text-muted-foreground font-light">
-              Client Image Placeholder
-            </div>
-            <div className="grid grid-rows-2 gap-4">
-              <div className="bg-secondary flex items-center justify-center text-muted-foreground font-light">
-                Client Image Placeholder
-              </div>
-              <div className="bg-secondary flex items-center justify-center text-muted-foreground font-light">
-                Client Image Placeholder
-              </div>
-            </div>
+          <div className="fold-corner rounded-[18px] aspect-[4/5] relative flex items-end p-4 shadow-custom overflow-hidden group bg-wine/10">
+            <Image src="/portfolio/image6.jpg" alt="Party Makeup" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10"></div>
+            <span className="relative z-20 text-white font-bold text-sm bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">Party Makeup</span>
           </div>
-          
+
+          <div className="fold-corner rounded-[18px] aspect-[4/5] relative flex items-end p-4 shadow-custom overflow-hidden group bg-emerald/10">
+            <Image src="/portfolio/image2.jpg" alt="Bridal Glam in the Bronx" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10"></div>
+            <span className="relative z-20 text-white font-bold text-sm bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">Bridal Glam</span>
+          </div>
+
+          <div className="fold-corner rounded-[18px] aspect-[4/5] relative flex items-end p-4 shadow-custom overflow-hidden group bg-gold/10">
+            <Image src="/portfolio/image3.jpg" alt="Owanbe Ready Makeup" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10"></div>
+            <span className="relative z-20 text-white font-bold text-sm bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">Owanbe Ready</span>
+          </div>
+
+          <div className="fold-corner rounded-[18px] aspect-[4/5] relative flex items-end p-4 shadow-custom overflow-hidden group bg-wine/10">
+            <Image src="/portfolio/image4.jpg" alt="Traditional Wedding Styling" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10"></div>
+            <span className="relative z-20 text-white font-bold text-sm bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">Traditional Wedding</span>
+          </div>
+
+          <div className="fold-corner rounded-[18px] aspect-[4/5] relative flex items-end p-4 shadow-custom overflow-hidden group bg-rose/10">
+            <Image src="/portfolio/image5.jpg" alt="Soft Glam Photoshoot" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10"></div>
+            <span className="relative z-20 text-white font-bold text-sm bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">Soft Glam</span>
+          </div>
+
+          <div className="fold-corner rounded-[18px] aspect-[4/5] relative flex items-end p-4 shadow-custom overflow-hidden group bg-rose/10">
+            <Image src="/portfolio/image7.jpg" alt="Birthday Makeup" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent z-10"></div>
+            <span className="relative z-20 text-white font-bold text-sm bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">Birthday Makeup</span>
+          </div>
+
         </div>
       </section>
 
+      <div className="bg-wine-deep rounded-[32px] p-10 md:p-14 text-cream grid md:grid-cols-2 gap-12 mx-6 md:mx-12 my-16 shadow-card items-center">
+        <div>
+          <p className="text-xs font-extrabold tracking-[0.16em] uppercase text-gold-light">How booking works</p>
+          <h2 className="text-white text-3xl font-bold mt-2">No prices online <br />we settle it on WhatsApp.</h2>
+          <p className="mt-3 text-[14.5px] text-[#e6d3c4] leading-[1.6]">Pick an open date and time on our secure calendar. We will send your request straight to Gee-Gee's WhatsApp, where you can agree on pricing together.</p>
+          
+          <div className="mt-8 flex flex-col gap-5">
+            <div className="flex gap-4">
+              <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">1</div>
+              <div>
+                <b className="block text-[15px] mb-1">Choose your date and time</b>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">View all open slots directly on our booking page.</span>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">2</div>
+              <div>
+                <b className="block text-[15px] mb-1">Tell us about your booking</b>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">Provide your name and the exact party size needed.</span>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">3</div>
+              <div>
+                <b className="block text-[15px] mb-1">Chat and confirm on WhatsApp</b>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">Gee-Gee will reply to confirm pricing, location, and travel details.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-center">
+          <Link href="/book" className="bg-cream text-ink rounded-[24px] p-8 shadow-card flex flex-col items-center text-center gap-4 hover:scale-[1.02] transition-transform w-full max-w-sm">
+            <div className="w-16 h-16 bg-blush rounded-full flex items-center justify-center text-wine-deep">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold">Ready for glam?</h3>
+              <p className="text-sm text-ink-soft mt-2">Tap below to view the studio calendar and lock in your date.</p>
+            </div>
+            <span className="bg-wine text-white font-bold text-sm px-6 py-3 rounded-full mt-2 w-full">Open Booking Calendar</span>
+          </Link>
+        </div>
+      </div>
+
+      <footer id="contact" className="bg-wine-deep text-[#e9dbcf] px-6 md:px-12 py-12 flex flex-col gap-8 rounded-t-[32px] mx-6 md:mx-12 mt-10">
+        <div className="flex flex-col md:flex-row justify-between gap-8">
+          <div className="flex flex-col gap-2">
+            <b className="font-fraunces text-white text-[15px]">Gee-Gee Makeovers</b>
+            <div className="text-[13.5px] text-[#cdb6a6] leading-loose">Makeup and gele styling<br />Mount Vernon, New York</div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <b className="font-fraunces text-white text-[15px]">Reach us</b>
+            <div className="text-[13.5px] text-[#cdb6a6] leading-loose">Calls: (929) 246-4115<br />Email: Gladysmomoh18@gmail.com</div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <b className="font-fraunces text-white text-[15px]">Working hours: 8am to 8pm Daily</b>
+            <div className="text-[13.5px] text-[#cdb6a6] leading-loose">Mon to Sun, strictly by appointment </div>
+          </div>
+        </div>
+        <div className="text-center text-xs text-[#9c8375] pt-6 border-t border-white/10 w-full">
+          Copyright 2026 Gee-Gee Makeovers. Proudly servicing Mount Vernon and NYC.
+        </div>
+      </footer>
+      
     </div>
   );
 }

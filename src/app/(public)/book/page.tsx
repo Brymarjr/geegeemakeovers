@@ -7,7 +7,6 @@ import { requestAppointment } from "@/actions/booking";
 import { getOccupiedSlots } from "@/actions/availability";
 import { STANDARD_TIME_SLOTS } from "@/lib/constants";
 
-// Helper to extract the exact local date without UTC shifting
 const getLocalDateString = (d: Date) => {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -103,44 +102,68 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4 md:px-6 flex-grow flex flex-col w-full">
-      <div className="mb-12 text-center md:text-left">
-        <h1 className="text-3xl font-medium tracking-tight">Request a Consultation</h1>
-        <p className="text-muted-foreground mt-2 font-light">
-          Select a date and provide your details. You will be redirected to WhatsApp to finalize your booking.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-12 bg-background border border-border p-6 md:p-8">
+    <div className="flex flex-col w-full max-w-7xl mx-auto px-4 md:px-12 py-12">
+      <div className="bg-wine-deep rounded-[32px] p-8 md:p-14 text-cream grid md:grid-cols-[0.85fr_1.15fr] gap-12 shadow-card items-start">
         
-        <div className="flex flex-col space-y-6">
-          <h2 className="font-medium text-lg uppercase tracking-widest text-sm text-primary">01. Select Date</h2>
-          <div className="border border-border p-4 flex justify-center bg-secondary/20">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-none bg-transparent"
-              disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
-            />
+        <div>
+          <p className="text-xs font-extrabold tracking-[0.16em] uppercase text-gold-light mb-2">How booking works</p>
+          <h1 className="text-3xl font-bold text-white leading-tight mb-4">No prices online <br />we settle it on WhatsApp.</h1>
+          <p className="text-[14.5px] text-[#e6d3c4] leading-relaxed mb-8">
+            Pick an open date and time below. We will send your request straight to GeeGee WhatsApp, where you can agree on pricing together.
+          </p>
+
+          <div className="flex flex-col gap-5">
+            <div className="flex gap-4">
+              <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">1</div>
+              <div>
+                <b className="block text-[15px] mb-1">Choose your date and time</b>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">Grayed out days are already booked or blocked.</span>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">2</div>
+              <div>
+                <b className="block text-[15px] mb-1">Tell us about your booking</b>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">Your name and how many people need makeup.</span>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">3</div>
+              <div>
+                <b className="block text-[15px] mb-1">Chat and confirm on WhatsApp</b>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">GeeGee replies to confirm price, location, and details.</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col space-y-6">
-          <h2 className="font-medium text-lg uppercase tracking-widest text-sm text-primary">02. Select Time & Details</h2>
-          
-          {!date ? (
-            <div className="h-full flex items-center justify-center border border-dashed border-border text-muted-foreground p-8 text-center font-light">
-              Please select a date first to view availability.
+        <div className="bg-cream text-ink rounded-[24px] p-6 md:p-8 shadow-card flex flex-col space-y-6">
+          <div className="space-y-2">
+            <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">01. Select Date</label>
+            <div className="bg-white border border-border rounded-[16px] p-4 flex justify-center shadow-sm">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="bg-transparent"
+                disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
+              />
             </div>
-          ) : isLoadingSlots ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground font-light">
-              Checking availability...
-            </div>
-          ) : (
-            <div className="flex flex-col h-full justify-between space-y-8">
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          </div>
+
+          <div className="space-y-4">
+            <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">02. Select Time</label>
+            
+            {!date ? (
+              <div className="flex items-center justify-center border border-dashed border-border rounded-[12px] text-ink-soft p-6 text-center text-sm">
+                Please select a date first to view availability.
+              </div>
+            ) : isLoadingSlots ? (
+              <div className="flex items-center justify-center border border-dashed border-border rounded-[12px] text-ink-soft p-6 text-center text-sm">
+                Checking availability...
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
                 {STANDARD_TIME_SLOTS.map((time) => {
                   const [timeStr, ampm] = time.split(" ");
                   let [hours, minutes] = timeStr.split(":").map(Number);
@@ -158,67 +181,71 @@ export default function BookingPage() {
                       key={time}
                       disabled={isOccupied}
                       onClick={() => setSelectedTime(time)}
-                      className={`h-10 text-sm border transition-colors ${
+                      className={`px-3 py-2 text-[13px] border-[1.5px] rounded-full font-bold transition-all ${
                         isOccupied 
-                          ? "bg-secondary text-muted-foreground border-border cursor-not-allowed opacity-50"
+                          ? "bg-white text-ink opacity-35 line-through border-border cursor-not-allowed"
                           : selectedTime === time 
-                            ? "bg-primary border-primary text-primary-foreground" 
-                            : "bg-transparent border-border text-foreground hover:border-primary"
+                            ? "bg-wine border-wine text-cream shadow-md" 
+                            : "bg-white border-border text-ink hover:bg-gold-light hover:border-gold-light"
                       }`}
                     >
-                      {time} {isOccupied && "(Booked)"}
+                      {time}
                     </button>
                   );
                 })}
               </div>
+            )}
+          </div>
 
-              {selectedTime && (
-                <div className="flex flex-col space-y-4 pt-6 border-t border-border animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Full Name</label>
-                    <input 
-                      type="text" 
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full h-12 px-4 border border-border bg-background focus:outline-none focus:border-primary transition-colors"
-                      placeholder="Jane Doe"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full h-12 px-4 border border-border bg-background focus:outline-none focus:border-primary transition-colors"
-                      placeholder="+1 (555) 000-0000"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Number of People</label>
-                    <input 
-                      type="number" 
-                      min="1"
-                      max="15"
-                      value={numberOfPeople}
-                      onChange={(e) => setNumberOfPeople(parseInt(e.target.value) || 1)}
-                      className="w-full h-12 px-4 border border-border bg-background focus:outline-none focus:border-primary transition-colors"
-                    />
-                  </div>
+          {selectedTime && (
+            <div className="flex flex-col space-y-4 pt-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="space-y-2 flex-1">
+                  <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">Your Name</label>
+                  <input 
+                    type="text" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full p-3 rounded-[12px] border-[1.5px] border-border bg-white text-[14.5px] focus:outline-none focus:border-gold transition-colors"
+                    placeholder="e.g. Jane Doe"
+                  />
                 </div>
-              )}
+                <div className="space-y-2 flex-1">
+                  <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">Number of People</label>
+                  <input 
+                    type="number" 
+                    min="1"
+                    max="15"
+                    value={numberOfPeople}
+                    onChange={(e) => setNumberOfPeople(parseInt(e.target.value) || 1)}
+                    className="w-full p-3 rounded-[12px] border-[1.5px] border-border bg-white text-[14.5px] focus:outline-none focus:border-gold transition-colors"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">Phone Number</label>
+                <input 
+                  type="tel" 
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full p-3 rounded-[12px] border-[1.5px] border-border bg-white text-[14.5px] focus:outline-none focus:border-gold transition-colors"
+                  placeholder="+1 (555) 0000000"
+                />
+              </div>
 
-              <div className="pt-4">
-                <Button 
+              <div className="pt-2">
+                <button 
                   onClick={handleBookingRequest}
-                  className="w-full h-14 bg-foreground text-background hover:bg-foreground/90 text-base" 
+                  className="w-full bg-wine text-cream font-bold text-sm px-6 py-4 rounded-full shadow-custom hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2" 
                   disabled={!selectedTime || !name || !phone || isSubmitting}
                 >
-                  {isSubmitting ? "Processing..." : "Continue to WhatsApp"}
-                </Button>
+                  {isSubmitting ? "Processing..." : "Send booking request on WhatsApp"}
+                </button>
               </div>
             </div>
           )}
+
         </div>
       </div>
     </div>

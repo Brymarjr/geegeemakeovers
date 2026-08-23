@@ -26,7 +26,7 @@ export function ConfirmedBookingRow({ appointment }: { appointment: any }) {
     const formattedDate = format(new Date(appointment.startTime), "MMMM do, yyyy");
     const formattedTime = format(new Date(appointment.startTime), "h:mm a");
     
-    const message = `Hello ${appointment.clientName}, this is GeeGee Makeovers. Unfortunately, we need to cancel your confirmed appointment for ${formattedDate} at ${formattedTime}. Please let us know if you would like to reschedule.`;
+    const message = `Hello ${appointment.clientName}, this is Gee-Gee Makeovers. Unfortunately, we need to cancel your confirmed appointment for ${formattedDate} at ${formattedTime}. Please let us know if you would like to reschedule.`;
     
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
@@ -45,56 +45,59 @@ export function ConfirmedBookingRow({ appointment }: { appointment: any }) {
 
   return (
     <>
-      <tr className="hover:bg-secondary/20 transition-colors">
-        <td className="px-6 py-4">
-          <p className="font-medium">{appointment.clientName}</p>
-          <p className="text-xs text-muted-foreground">{appointment.clientPhone}</p>
+      <tr className="hover:bg-black/5 transition-colors border-b border-border/50 last:border-0">
+        <td className="px-6 py-5">
+          <p className="font-bold text-[14.5px] text-wine-deep">{appointment.clientName}</p>
+          <p className="text-[12.5px] font-semibold text-ink-soft">{appointment.clientPhone}</p>
         </td>
-        <td className="px-6 py-4">{format(new Date(appointment.startTime), "MMM do, yyyy")}</td>
-        <td className="px-6 py-4">{format(new Date(appointment.startTime), "h:mm a")}</td>
-        <td className="px-6 py-4">{appointment.numberOfPeople}</td>
-        <td className="px-6 py-4">
+        <td className="px-6 py-5 text-[14px]">{format(new Date(appointment.startTime), "MMM do, yyyy")}</td>
+        <td className="px-6 py-5 text-[14px]">{format(new Date(appointment.startTime), "h:mm a")}</td>
+        <td className="px-6 py-5">
+          <span className="bg-[#DCEEE6] text-emerald-deep text-[11px] font-extrabold uppercase px-3 py-1 rounded-full tracking-[0.03em]">
+            Confirmed
+          </span>
+        </td>
+        <td className="px-6 py-5 font-semibold text-[14px]">
           ${(appointment.agreedPriceInCents / 100).toFixed(2)}
         </td>
-        <td className="px-6 py-4 text-right space-x-3">
+        <td className="px-6 py-5 text-right space-x-2">
           <button 
             onClick={executeCompletion}
             disabled={isCompleting || isCancelling}
-            className="px-4 py-2 bg-foreground text-background hover:bg-foreground/90 transition-colors font-medium text-xs tracking-wide disabled:opacity-50"
+            className="px-4 py-2 bg-wine/10 text-wine-deep rounded-[10px] hover:bg-wine/20 transition-colors font-bold text-[12px] disabled:opacity-50"
           >
-            {isCompleting ? "PROCESSING..." : "MARK COMPLETED"}
+            {isCompleting ? "Processing..." : "Mark Done"}
           </button>
           <button 
             onClick={() => setIsModalOpen(true)}
             disabled={isCompleting || isCancelling}
-            className="px-4 py-2 border border-red-200 text-red-600 bg-background hover:bg-red-50 transition-colors font-medium text-xs tracking-wide disabled:opacity-50"
+            className="px-4 py-2 border-[1.5px] border-[#A8422F] text-[#A8422F] rounded-[10px] hover:bg-[#A8422F]/10 transition-colors font-bold text-[12px] disabled:opacity-50"
           >
-            CANCEL
+            Cancel
           </button>
         </td>
       </tr>
 
-      {/* Custom Confirmation Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-          <div className="bg-background border border-border p-6 md:p-8 max-w-md w-full shadow-xl animate-in fade-in zoom-in-95 duration-200">
-            <h3 className="text-xl font-medium tracking-tight mb-2">Cancel Appointment?</h3>
-            <p className="text-muted-foreground text-sm font-light mb-8">
-              Are you sure you want to cancel the booking for <span className="font-medium text-foreground">{appointment.clientName}</span>? This will immediately open up the time slot on your public calendar and redirect you to WhatsApp to notify the client.
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/55 backdrop-blur-[2px] px-4">
+          <div className="bg-white rounded-[22px] p-8 max-w-[420px] w-full shadow-card animate-in fade-in zoom-in-95 duration-200">
+            <h3 className="text-xl font-fraunces font-bold text-wine-deep mb-2">Cancel Appointment?</h3>
+            <p className="text-ink-soft text-[13.5px] mb-6 leading-relaxed">
+              Are you sure you want to cancel the booking for <span className="font-bold text-ink">{appointment.clientName}</span>? This will immediately open up the time slot on your public calendar and redirect you to WhatsApp to notify the client.
             </p>
             
             <div className="flex gap-3">
               <button 
                 onClick={executeCancellation}
                 disabled={isCancelling}
-                className="flex-1 bg-red-600 text-white text-sm font-medium h-12 hover:bg-red-700 transition-colors disabled:opacity-50"
+                className="flex-1 bg-[#A8422F] text-white text-[13px] font-bold h-11 rounded-[12px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none"
               >
                 {isCancelling ? "Processing..." : "Yes, Cancel Booking"}
               </button>
               <button 
                 onClick={() => setIsModalOpen(false)}
                 disabled={isCancelling}
-                className="flex-1 border border-border bg-background text-foreground text-sm font-medium h-12 hover:bg-secondary transition-colors"
+                className="flex-1 border-[1.5px] border-border bg-transparent text-ink text-[13px] font-bold h-11 rounded-[12px] hover:bg-black/5 transition-colors"
               >
                 Go Back
               </button>

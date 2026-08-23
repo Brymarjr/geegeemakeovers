@@ -1,57 +1,65 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(0 0% 15%);
+  /* Brand Colors */
+  --color-wine: #5A1B2E;
+  --color-wine-deep: #3A0F1D;
+  --color-gold: #C9982E;
+  --color-gold-light: #E8C77A;
+  --color-blush: #F7ECE4;
+  --color-cream: #FDF8F2;
+  --color-ink: #2A1B1E;
+  --color-ink-soft: #6E5B57;
+  --color-emerald: #1F4B3F;
+  --color-emerald-deep: #123128;
+  --color-rose: #D8A7A0;
 
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(0 0% 15%);
+  /* Dashboard Structural Colors */
+  --color-border: rgba(90, 27, 46, 0.14);
+  --color-background: #F7ECE4;
+  --color-foreground: #2A1B1E;
+  --color-primary: #5A1B2E;
+  --color-primary-foreground: #FDF8F2;
+  --color-secondary: rgba(232,199,122,0.16);
+  --color-secondary-foreground: #C9982E;
 
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(0 0% 15%);
+  /* Typography */
+  --font-fraunces: var(--font-fraunces), serif;
+  --font-sans: var(--font-manrope), sans-serif;
 
-  --color-primary: hsl(38 40% 50%);
-  --color-primary-foreground: hsl(0 0% 100%);
-
-  --color-secondary: hsl(0 0% 96%);
-  --color-secondary-foreground: hsl(0 0% 15%);
-
-  --color-muted: hsl(0 0% 96%);
-  --color-muted-foreground: hsl(0 0% 45%);
-
-  --color-accent: hsl(38 40% 50%);
-  --color-accent-foreground: hsl(0 0% 100%);
-
-  --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(0 0% 98%);
-
-  --color-border: hsl(0 0% 90%);
-  --color-input: hsl(0 0% 90%);
-  --color-ring: hsl(38 40% 50%);
-
-  --radius: 0.5rem;
+  /* Shadows */
+  --shadow-custom: 0 12px 30px -14px rgba(58,15,29,0.35);
+  --shadow-card: 0 30px 60px -25px rgba(0,0,0,0.5);
 }
 
-/* Base styles applied directly to HTML elements */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-border, currentColor);
-  }
-  
-  html, body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: inherit;
+  body {
+    background-color: var(--color-blush);
+    color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-fraunces);
+    color: var(--color-wine-deep);
+    letter-spacing: -0.01em;
+  }
+}
 
-  ::selection {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+@layer components {
+  .fold-corner {
+    position: relative;
+    overflow: hidden;
+  }
+  .fold-corner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 34px 34px 0;
+    border-color: transparent var(--color-gold-light) transparent transparent;
+    filter: drop-shadow(-3px 3px 4px rgba(58,15,29,0.25));
   }
 }

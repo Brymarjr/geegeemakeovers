@@ -4,6 +4,7 @@ import { asc } from "drizzle-orm";
 import { format } from "date-fns";
 import { PendingRequestCard } from "./PendingRequestCard";
 import { ConfirmedBookingRow } from "./ConfirmedBookingRow";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -17,27 +18,42 @@ export default async function DashboardPage() {
   const completedBookings = allAppointments.filter(app => app.status === "completed").reverse();
 
   return (
-    <div className="p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-12">
+    <div className="min-h-screen bg-cream p-6 md:p-10">
+      <div className="max-w-[1180px] mx-auto space-y-10 pb-20">
         
-        <div className="border-b border-border pb-6">
-          <h1 className="text-3xl font-medium tracking-tight">Appointments</h1>
-          <p className="text-muted-foreground mt-1 font-light">
-            Manage your upcoming schedule and pending consultation requests.
-          </p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
+          <div>
+            <p className="text-[12px] font-extrabold tracking-[0.16em] uppercase text-emerald-deep mb-1">Owner access</p>
+            <h1 className="text-[30px] font-bold font-fraunces text-wine-deep">Studio dashboard</h1>
+            <p className="text-ink-soft text-[14px] mt-1">Manage your calendar and every booking request in one place.</p>
+          </div>
+          <Link href="/" className="bg-emerald text-[#EFF6F2] font-bold text-[14px] px-6 py-3 rounded-full hover:-translate-y-0.5 transition-transform shadow-sm">
+            View public site
+          </Link>
         </div>
 
-        <section>
-          <h2 className="text-xl font-medium mb-6 flex items-center gap-2">
-            Pending Requests 
-            <span className="bg-primary text-primary-foreground text-xs py-1 px-2 rounded-full">
-              {pendingRequests.length}
-            </span>
-          </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="bg-white rounded-[18px] p-6 border border-border flex flex-col gap-2">
+            <b className="font-fraunces text-[32px] text-emerald-deep">{pendingRequests.length}</b>
+            <span className="text-[12.5px] font-bold text-ink-soft uppercase tracking-[0.05em]">Pending requests</span>
+          </div>
+          <div className="bg-white rounded-[18px] p-6 border border-border flex flex-col gap-2">
+            <b className="font-fraunces text-[32px] text-emerald-deep">{confirmedBookings.length}</b>
+            <span className="text-[12.5px] font-bold text-ink-soft uppercase tracking-[0.05em]">Upcoming appointments</span>
+          </div>
+          <div className="bg-white rounded-[18px] p-6 border border-border flex flex-col gap-2">
+            <b className="font-fraunces text-[32px] text-emerald-deep">{completedBookings.length}</b>
+            <span className="text-[12.5px] font-bold text-ink-soft uppercase tracking-[0.05em]">Completed jobs</span>
+          </div>
+        </div>
+
+        <section className="bg-white rounded-[20px] border border-border p-6 md:p-8">
+          <h2 className="text-[18px] font-bold font-fraunces text-wine-deep mb-1">Booking requests</h2>
+          <p className="text-[13px] text-ink-soft mb-6">New requests from the website land here first.</p>
           
           {pendingRequests.length === 0 ? (
-            <div className="p-8 border border-dashed border-border text-center text-muted-foreground font-light bg-background">
-              No pending requests at the moment.
+            <div className="text-center py-8 text-ink-soft text-[13.5px]">
+              No pending requests right now.
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -48,27 +64,18 @@ export default async function DashboardPage() {
           )}
         </section>
 
-        <section>
-          <h2 className="text-xl font-medium mb-6">Upcoming Appointments</h2>
+        <section className="bg-white rounded-[20px] border border-border p-6 md:p-8">
+          <h2 className="text-[18px] font-bold font-fraunces text-wine-deep mb-1">Upcoming appointments</h2>
+          <p className="text-[13px] text-ink-soft mb-6">Accepted bookings. Mark a job done once you have finished the service.</p>
           
           {confirmedBookings.length === 0 ? (
-            <div className="p-8 border border-dashed border-border text-center text-muted-foreground font-light bg-background">
-              No confirmed appointments.
+            <div className="text-center py-8 text-ink-soft text-[13.5px]">
+              Nothing on the books yet.
             </div>
           ) : (
-            <div className="bg-background border border-border overflow-hidden">
-              <table className="w-full text-left text-sm font-light">
-                <thead className="bg-secondary/50 font-medium">
-                  <tr>
-                    <th className="px-6 py-4">Client</th>
-                    <th className="px-6 py-4">Date</th>
-                    <th className="px-6 py-4">Time</th>
-                    <th className="px-6 py-4">Party Size</th>
-                    <th className="px-6 py-4">Agreed Price</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <tbody>
                   {confirmedBookings.map((appointment) => (
                     <ConfirmedBookingRow key={appointment.id} appointment={appointment} />
                   ))}
@@ -78,41 +85,33 @@ export default async function DashboardPage() {
           )}
         </section>
 
-        <section>
-          <h2 className="text-xl font-medium mb-6">Completed Bookings</h2>
+        <section className="bg-white rounded-[20px] border border-border p-6 md:p-8">
+          <h2 className="text-[18px] font-bold font-fraunces text-wine-deep mb-1">Completed</h2>
+          <p className="text-[13px] text-ink-soft mb-6">Your service history.</p>
           
           {completedBookings.length === 0 ? (
-            <div className="p-8 border border-dashed border-border text-center text-muted-foreground font-light bg-background">
-              No completed appointments yet.
+            <div className="text-center py-8 text-ink-soft text-[13.5px]">
+              Completed jobs will show up here.
             </div>
           ) : (
-            <div className="bg-background border border-border overflow-hidden opacity-75">
-              <table className="w-full text-left text-sm font-light">
-                <thead className="bg-secondary/50 font-medium">
-                  <tr>
-                    <th className="px-6 py-4">Client</th>
-                    <th className="px-6 py-4">Date</th>
-                    <th className="px-6 py-4">Time</th>
-                    <th className="px-6 py-4">Party Size</th>
-                    <th className="px-6 py-4">Final Price</th>
-                    <th className="px-6 py-4 text-right">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
+            <div className="overflow-x-auto opacity-70">
+              <table className="w-full text-left">
+                <tbody>
                   {completedBookings.map((appointment) => (
-                    <tr key={appointment.id} className="hover:bg-secondary/20 transition-colors">
+                    <tr key={appointment.id} className="border-b border-border/50 last:border-0">
                       <td className="px-6 py-4">
-                        <p className="font-medium">{appointment.clientName}</p>
-                        <p className="text-xs text-muted-foreground">{appointment.clientPhone}</p>
+                        <p className="font-bold text-[14.5px] text-wine-deep">{appointment.clientName}</p>
+                        <p className="text-[12.5px] font-semibold text-ink-soft">{appointment.clientPhone}</p>
                       </td>
-                      <td className="px-6 py-4">{format(new Date(appointment.startTime), "MMM do, yyyy")}</td>
-                      <td className="px-6 py-4">{format(new Date(appointment.startTime), "h:mm a")}</td>
-                      <td className="px-6 py-4">{appointment.numberOfPeople}</td>
+                      <td className="px-6 py-4 text-[14px] text-ink-soft">{format(new Date(appointment.startTime), "MMM do, yyyy")}</td>
+                      <td className="px-6 py-4 text-[14px] text-ink-soft">{format(new Date(appointment.startTime), "h:mm a")}</td>
                       <td className="px-6 py-4">
+                        <span className="bg-[#e7e2df] text-[#6b5c55] text-[11px] font-extrabold uppercase px-3 py-1 rounded-full tracking-[0.03em]">
+                          Done
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 font-semibold text-[14px] text-ink-soft">
                         ${(appointment.agreedPriceInCents! / 100).toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-muted-foreground font-medium">
-                        Completed
                       </td>
                     </tr>
                   ))}

@@ -1,14 +1,20 @@
-// src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 
-// Inter is a clean, highly legible sans-serif font
-const inter = Inter({ subsets: ["latin"] });
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
 
 export const metadata: Metadata = {
-  title: "GeeGee Makeovers | Bespoke Gele & Makeup in Mount Vernono, NY",
-  description: "Luxury makeup artistry and traditional Gele styling in New York State, Mount Vernon. Request your custom appointment today.",
+  title: "GeeGee Makeovers | Bespoke Gele & Makeup in Mount Vernon, NY",
+  description: "Luxury makeup artistry and traditional Gele styling in Mount Vernon and New York City. Request your custom appointment today.",
 };
 
 export default function RootLayout({
@@ -18,8 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
-        {/* The main tag automatically pushes the footer down if the page is short */}
+      <body className={`${manrope.variable} ${fraunces.variable} font-sans min-h-screen flex flex-col bg-blush text-ink`}>
         <main className="flex-grow flex flex-col">
           {children}
         </main>
