@@ -34,7 +34,10 @@ export default async function AdminPortfolioPage() {
 
     const arrayBuffer = await file.arrayBuffer();
     const fileBuffer = Buffer.from(arrayBuffer);
-    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
+    
+    // Strict filename sanitization
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+    const fileName = `${Date.now()}-${cleanFileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("portfolio")
