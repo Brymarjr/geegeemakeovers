@@ -18,7 +18,7 @@ export default function LandingPage() {
             <Link href="/book" className="bg-wine text-cream font-bold text-sm px-7 py-3.5 rounded-full hover:-translate-y-0.5 transition-transform shadow-custom">
               Check available dates
             </Link>
-            <Link href="#portfolio" className="bg-transparent border-[1.5px] border-wine text-wine font-bold text-sm px-7 py-3.5 rounded-full hover:-translate-y-0.5 transition-transform">
+            <Link href="/portfolio" className="bg-transparent border-[1.5px] border-wine text-wine font-bold text-sm px-7 py-3.5 rounded-full hover:-translate-y-0.5 transition-transform">
               See past work
             </Link>
           </div>

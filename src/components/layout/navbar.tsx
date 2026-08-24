@@ -26,7 +26,7 @@ export function Navbar() {
       </div>
 
       <div className="hidden md:flex items-center gap-8 font-semibold text-sm">
-        <Link href="/#portfolio" className="text-ink hover:text-wine transition-colors">Portfolio</Link>
+        <Link href="/portfolio" className="text-ink hover:text-wine transition-colors">Portfolio</Link>
         {!isBookPage && (
           <Link href="/book" className="text-ink hover:text-wine transition-colors">Book a date</Link>
         )}
@@ -50,7 +50,7 @@ export function Navbar() {
 
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-cream shadow-card flex flex-col p-6 gap-6 font-semibold text-sm border-t border-border md:hidden">
-          <Link href="/#portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-ink hover:text-wine transition-colors">Portfolio</Link>
+          <Link href="/portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-ink hover:text-wine transition-colors">Portfolio</Link>
           {!isBookPage && (
             <Link href="/book" onClick={() => setIsMobileMenuOpen(false)} className="text-ink hover:text-wine transition-colors">Book a date</Link>
           )}

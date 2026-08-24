@@ -36,6 +36,9 @@ export default function DashboardLayout({
               <Link href="/dashboard/schedule" className="text-[12px] font-extrabold text-ink-soft hover:text-wine transition-colors tracking-[0.05em] uppercase">
                 Schedule Management
               </Link>
+              <Link href="/dashboard/portfolio" className="text-[12px] font-extrabold text-ink-soft hover:text-wine transition-colors tracking-[0.05em] uppercase">
+                Portfolio Manager
+              </Link>
             </nav>
           </div>
           
@@ -67,6 +70,9 @@ export default function DashboardLayout({
             </Link>
             <Link href="/dashboard/schedule" onClick={() => setIsMobileMenuOpen(false)} className="text-[12px] font-extrabold text-ink-soft hover:text-wine transition-colors tracking-[0.05em] uppercase">
               Schedule Management
+            </Link>
+            <Link href="/dashboard/portfolio" className="text-[12px] font-extrabold text-ink-soft hover:text-wine transition-colors tracking-[0.05em] uppercase">
+              Portfolio Manager
             </Link>
             <form action={logoutAdmin} className="mt-2 border-t border-border pt-4">
               <button type="submit" className="text-[12px] font-extrabold text-[#A8422F] hover:text-wine-deep transition-colors tracking-[0.05em] uppercase w-full text-left">

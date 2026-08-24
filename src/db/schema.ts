@@ -76,3 +76,11 @@ export const blockouts = pgTable("blockouts", {
   reason: text("reason"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const portfolioItems = pgTable("portfolio_items", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  imageUrl: text("image_url").notNull(),
+  caption: text("caption").notNull(),
+  category: text("category").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
