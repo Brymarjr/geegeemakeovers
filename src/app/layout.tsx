@@ -14,7 +14,7 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: "GeeGee Makeovers | Bespoke Gele & Makeup in Mount Vernon, NY",
-  description: "Luxury makeup artistry and traditional Gele styling in Mount Vernon and New York City. Request your custom appointment today.",
+  description: "Luxury makeup artistry and traditional Gele styling in Mount Vernon, New York State. Request your custom appointment today.",
 };
 
 export default function RootLayout({

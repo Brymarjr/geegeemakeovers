@@ -12,7 +12,7 @@ export default function LandingPage() {
             Every fold<br /><em className="italic text-gold font-medium">tells a story.</em>
           </h1>
           <p className="mt-6 text-[17px] leading-[1.65] text-ink-soft max-w-[46ch]">
-            Gee-Gee Makeovers brings together flawless makeup and expertly tied gele, so you walk into every aso-ebi, wedding or owanbe looking exactly like the occasion deserves across Mount Vernon and New York City.
+            Gee-Gee Makeovers brings together flawless makeup and expertly tied gele, so you walk into every aso-ebi, wedding or owanbe looking exactly like the occasion deserves across Mount Vernon, New York State.
           </p>
           <div className="flex flex-wrap gap-4 mt-8">
             <Link href="/book" className="bg-wine text-cream font-bold text-sm px-7 py-3.5 rounded-full hover:-translate-y-0.5 transition-transform shadow-custom">
@@ -149,7 +149,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="text-center text-xs text-[#9c8375] pt-6 border-t border-white/10 w-full">
-          Copyright 2026 Gee-Gee Makeovers. Proudly servicing Mount Vernon and NYC.
+          Copyright 2026 Gee-Gee Makeovers. Proudly servicing Mount Vernon, New York State.
         </div>
       </footer>
       
