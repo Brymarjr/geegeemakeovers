@@ -5,12 +5,12 @@ import bcrypt from "bcryptjs";
 async function seedDeveloperAdmin() {
   try {
     // Generate a secure hash for the temporary password
-    const temporaryPassword = "Adminpass2026";
+    const temporaryPassword = "Temppass2026";
     const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
 
     // Insert the developer record
     await db.insert(admins).values({
-      email: "braimaholatilewa@gmail.com",
+      email: "Gladysmomoh18@gmail.com",
       passwordHash: hashedPassword,
       requiresPasswordChange: true, // Forces you to change it on first login
     });

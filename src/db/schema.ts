@@ -38,6 +38,7 @@ export const appointments = pgTable("appointments", {
   clientName: text("client_name").notNull(),
   clientEmail: text("client_email").notNull(),
   clientPhone: text("client_phone").notNull(),
+  location: text("location"),
   
   startTime: timestamp("start_time", { withTimezone: true }).notNull(),
   endTime: timestamp("end_time", { withTimezone: true }).notNull(),

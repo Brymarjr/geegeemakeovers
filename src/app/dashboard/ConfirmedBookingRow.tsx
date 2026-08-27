@@ -49,6 +49,9 @@ export function ConfirmedBookingRow({ appointment }: { appointment: any }) {
         <td className="px-6 py-5">
           <p className="font-bold text-[14.5px] text-wine-deep">{appointment.clientName}</p>
           <p className="text-[12.5px] font-semibold text-ink-soft">{appointment.clientPhone}</p>
+          {appointment.location && (
+            <p className="text-[12px] font-medium text-emerald-deep mt-0.5">📍 {appointment.location}</p>
+          )}
         </td>
         <td className="px-6 py-5 text-[14px]">{format(new Date(appointment.startTime), "MMM do, yyyy")}</td>
         <td className="px-6 py-5 text-[14px]">{format(new Date(appointment.startTime), "h:mm a")}</td>
@@ -64,14 +67,14 @@ export function ConfirmedBookingRow({ appointment }: { appointment: any }) {
           <button 
             onClick={executeCompletion}
             disabled={isCompleting || isCancelling}
-            className="px-4 py-2 bg-wine/10 text-wine-deep rounded-[10px] hover:bg-wine/20 transition-colors font-bold text-[12px] disabled:opacity-50"
+            className="px-4 py-2 bg-wine/10 text-wine-deep rounded-[10px] hover:bg-wine/20 transition-colors font-bold text-[12px] disabled:opacity-50 cursor-pointer"
           >
             {isCompleting ? "Processing..." : "Mark Done"}
           </button>
           <button 
             onClick={() => setIsModalOpen(true)}
             disabled={isCompleting || isCancelling}
-            className="px-4 py-2 border-[1.5px] border-[#A8422F] text-[#A8422F] rounded-[10px] hover:bg-[#A8422F]/10 transition-colors font-bold text-[12px] disabled:opacity-50"
+            className="px-4 py-2 border-[1.5px] border-[#A8422F] text-[#A8422F] rounded-[10px] hover:bg-[#A8422F]/10 transition-colors font-bold text-[12px] disabled:opacity-50 cursor-pointer"
           >
             Cancel
           </button>
@@ -90,14 +93,14 @@ export function ConfirmedBookingRow({ appointment }: { appointment: any }) {
               <button 
                 onClick={executeCancellation}
                 disabled={isCancelling}
-                className="flex-1 bg-[#A8422F] text-white text-[13px] font-bold h-11 rounded-[12px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none"
+                className="flex-1 bg-[#A8422F] text-white text-[13px] font-bold h-11 rounded-[12px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none cursor-pointer"
               >
                 {isCancelling ? "Processing..." : "Yes, Cancel Booking"}
               </button>
               <button 
                 onClick={() => setIsModalOpen(false)}
                 disabled={isCancelling}
-                className="flex-1 border-[1.5px] border-border bg-transparent text-ink text-[13px] font-bold h-11 rounded-[12px] hover:bg-black/5 transition-colors"
+                className="flex-1 border-[1.5px] border-border bg-transparent text-ink text-[13px] font-bold h-11 rounded-[12px] hover:bg-black/5 transition-colors cursor-pointer"
               >
                 Go Back
               </button>

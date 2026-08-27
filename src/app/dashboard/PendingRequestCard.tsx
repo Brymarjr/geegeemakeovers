@@ -41,9 +41,13 @@ export function PendingRequestCard({ appointment }: { appointment: any }) {
           </span>
         </div>
         <h3 className="font-fraunces font-bold text-lg text-wine-deep">{appointment.clientName}</h3>
-        <p className="text-[13px] text-ink-soft mb-4">{appointment.clientPhone} · {appointment.numberOfPeople} {appointment.numberOfPeople === 1 ? 'person' : 'people'}</p>
+        <p className="text-[13px] text-ink-soft mb-1">{appointment.clientPhone} · {appointment.numberOfPeople} {appointment.numberOfPeople === 1 ? 'person' : 'people'}</p>
         
-        <div className="space-y-1 text-[13.5px] text-ink-soft">
+        {appointment.location && (
+          <p className="text-[13px] text-wine-deep font-semibold mb-3">📍 Location: {appointment.location}</p>
+        )}
+
+        <div className="space-y-1 text-[13.5px] text-ink-soft mt-2">
           <p><span className="font-bold text-wine-deep">Date:</span> {format(new Date(appointment.startTime), "MMMM do, yyyy")}</p>
           <p><span className="font-bold text-wine-deep">Time:</span> {format(new Date(appointment.startTime), "h:mm a")}</p>
         </div>
@@ -68,14 +72,14 @@ export function PendingRequestCard({ appointment }: { appointment: any }) {
               <button 
                 onClick={handleConfirm}
                 disabled={!price || isProcessing}
-                className="flex-1 bg-emerald text-white text-[13px] font-bold h-10 rounded-[10px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none shadow-sm"
+                className="flex-1 bg-emerald text-white text-[13px] font-bold h-10 rounded-[10px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none shadow-sm cursor-pointer"
               >
                 {isProcessing ? "Saving..." : "Save Price"}
               </button>
               <button 
                 onClick={() => setIsConfirming(false)}
                 disabled={isProcessing}
-                className="flex-1 border-[1.5px] border-border text-ink text-[13px] font-bold h-10 rounded-[10px] hover:bg-black/5 transition-colors"
+                className="flex-1 border-[1.5px] border-border text-ink text-[13px] font-bold h-10 rounded-[10px] hover:bg-black/5 transition-colors cursor-pointer"
               >
                 Back
               </button>
@@ -86,14 +90,14 @@ export function PendingRequestCard({ appointment }: { appointment: any }) {
             <button 
               onClick={() => setIsConfirming(true)}
               disabled={isProcessing}
-              className="flex-1 bg-emerald text-white text-[13px] font-bold h-10 rounded-[10px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none shadow-sm"
+              className="flex-1 bg-emerald text-white text-[13px] font-bold h-10 rounded-[10px] hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:transform-none shadow-sm cursor-pointer"
             >
               Accept
             </button>
             <button 
               onClick={handleCancel}
               disabled={isProcessing}
-              className="flex-1 border-[1.5px] border-[#A8422F] text-[#A8422F] text-[13px] font-bold h-10 rounded-[10px] hover:bg-[#A8422F]/10 transition-colors disabled:opacity-50"
+              className="flex-1 border-[1.5px] border-[#A8422F] text-[#A8422F] text-[13px] font-bold h-10 rounded-[10px] hover:bg-[#A8422F]/10 transition-colors disabled:opacity-50 cursor-pointer"
             >
               Decline
             </button>

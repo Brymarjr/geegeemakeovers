@@ -22,6 +22,7 @@ export default function BookingPage() {
   
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState(""); 
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -47,7 +48,7 @@ export default function BookingPage() {
   }, [date]);
 
   const handleBookingRequest = async () => {
-    if (!date || !selectedTime || !name || !phone) return;
+    if (!date || !selectedTime || !name || !phone || !location) return;
     
     setIsSubmitting(true);
 
@@ -66,6 +67,7 @@ export default function BookingPage() {
       const dbResult = await requestAppointment({
         clientName: name,
         clientPhone: phone,
+        location: location, 
         startTime: startTime.toISOString(),
         endTime: endTime.toISOString(),
         numberOfPeople: numberOfPeople,
@@ -78,7 +80,7 @@ export default function BookingPage() {
       }
 
       const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      const message = `Hello GeeGee Makeovers! I would like to request a consultation.\n\nName: ${name}\nRequested Date: ${formattedDate}\nRequested Time: ${selectedTime}\nParty Size: ${numberOfPeople} person(s)\n\nPlease let me know if this slot is available and what the pricing would be.`;
+      const message = `Hello GeeGee Makeovers! I would like to request a consultation.\n\nName: ${name}\nLocation: ${location}\nRequested Date: ${formattedDate}\nRequested Time: ${selectedTime}\nParty Size: ${numberOfPeople} person(s)\n\nPlease let me know if this slot is available and what the pricing would be.`;
       
       const encodedMessage = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/${businessWhatsAppNumber}?text=${encodedMessage}`;
@@ -89,6 +91,7 @@ export default function BookingPage() {
       setSelectedTime(null);
       setName("");
       setPhone("");
+      setLocation(""); 
       setNumberOfPeople(1);
       
       const dateString = getLocalDateString(date);
@@ -124,7 +127,7 @@ export default function BookingPage() {
               <div className="w-8 h-8 shrink-0 rounded-full bg-secondary text-gold-light flex items-center justify-center font-extrabold font-fraunces text-sm">2</div>
               <div>
                 <b className="block text-[15px] mb-1">Tell us about your booking</b>
-                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">Your name and how many people need makeup.</span>
+                <span className="text-[13.5px] text-[#d8c2b4] leading-relaxed">Your name, location, and party size.</span>
               </div>
             </div>
             <div className="flex gap-4">
@@ -223,22 +226,34 @@ export default function BookingPage() {
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">Phone Number</label>
-                <input 
-                  type="tel" 
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full p-3 rounded-[12px] border-[1.5px] border-border bg-white text-[14.5px] focus:outline-none focus:border-gold transition-colors"
-                  placeholder="+1 (555) 0000000"
-                />
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="space-y-2 flex-1">
+                  <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full p-3 rounded-[12px] border-[1.5px] border-border bg-white text-[14.5px] focus:outline-none focus:border-gold transition-colors"
+                    placeholder="+1 (555) 0000000"
+                  />
+                </div>
+                <div className="space-y-2 flex-1">
+                  <label className="text-[12.5px] font-bold text-wine-deep uppercase tracking-[0.04em]">Location / Address</label>
+                  <input 
+                    type="text" 
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full p-3 rounded-[12px] border-[1.5px] border-border bg-white text-[14.5px] focus:outline-none focus:border-gold transition-colors"
+                    placeholder="e.g. Mount Vernon, NY"
+                  />
+                </div>
               </div>
 
               <div className="pt-2">
                 <button 
                   onClick={handleBookingRequest}
                   className="w-full bg-wine text-cream font-bold text-sm px-6 py-4 rounded-full shadow-custom hover:-translate-y-0.5 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2" 
-                  disabled={!selectedTime || !name || !phone || isSubmitting}
+                  disabled={!selectedTime || !name || !phone || !location || isSubmitting}
                 >
                   {isSubmitting ? "Processing..." : "Send booking request on WhatsApp"}
                 </button>
